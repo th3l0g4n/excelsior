@@ -65,7 +65,8 @@ class Cell extends Base {
      * @param array $config
      */
     public function setFont(array $config) {
-        $this->getStyle()->getFont()->applyFromArray($config);
+        $this->getParent()->getStyle($this->getRangeCoordinates())->getFont()->applyFromArray($config);
+        return $this;
     }
 
     /**
@@ -74,7 +75,13 @@ class Cell extends Base {
      * @param array $config
      */
     public function setFill(array $config) {
-        $this->getStyle()->getFill()->applyFromArray($config);
+        $this->getParent()->getStyle($this->getRangeCoordinates())->getFill()->applyFromArray($config);
+        return $this;
+    }
+
+    public function setBorders(array $config) {
+        $this->getParent()->getStyle($this->getRangeCoordinates())->getBorders()->applyFromArray($config);
+        return $this;
     }
 
     /**
@@ -84,21 +91,11 @@ class Cell extends Base {
      * @return $this
      */
     public function merge(Cell $cell) {
-        $cols = array();
-        $cols[] = $this->getColumnIndex();
-        $cols[] = $cell->getColumnIndex();
-        sort($cols);
+        if (($range = $this->isMerged()) !== false) {
+            $this->getParent()->unmergeCells($range);
+        }
 
-        var_dump($cols);
-
-        $rows = array();
-        $rows[] = $this->getRow();
-        $rows[] = $cell->getRow();
-        sort($rows);
-
-        var_dump($rows);
-
-        $this->getParent()->mergeCellsByColumnAndRow($cols[0], $rows[0], $cols[1], $rows[1]);
+        $this->getParent()->mergeCells($this->generateCellRange($this, $cell));
 
         return $this;
     }
@@ -112,7 +109,7 @@ class Cell extends Base {
         $cellRanges = $this->getParent()->getMergeCells();
 
         foreach ($cellRanges as $range) {
-            if ($this->isInRange($range)) return true;
+            if ($this->isInRange($range)) return $range;
         }
 
         return false;
@@ -125,7 +122,32 @@ class Cell extends Base {
      * @return $this
      */
     public function setValue($value) {
-        $this->component->setValue($value);
+        $this->getComponent()->setValue($value);
         return $this;
+    }
+
+    protected function generateCellRange(Cell $cell1, Cell $cell2) {
+        $cols = array();
+        $cols[] = $cell1->getColumnIndex();
+        $cols[] = $cell2->getColumnIndex();
+        sort($cols);
+
+        $rows = array();
+        $rows[] = $cell1->getRow();
+        $rows[] = $cell2->getRow();
+        sort($rows);
+
+        $colStart = \PHPExcel_Cell::stringFromColumnIndex($cols[0]);
+        $colEnd = \PHPExcel_Cell::stringFromColumnIndex($cols[1]);
+
+        return $colStart . $rows[0] . ':' . $colEnd . $rows[1];
+    }
+
+    protected function getRangeCoordinates() {
+        if (($range = $this->isMerged()) !== false) {
+         return $range;
+        }
+
+        return $this->getCoordinate();
     }
 }
