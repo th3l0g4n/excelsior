@@ -17,4 +17,8 @@ abstract class Base {
     public function getParent() {
         return $this->parent;
     }
+
+    public function getComponent() {
+        return $this->component;
+    }
 }

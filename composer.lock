@@ -3,63 +3,42 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "6957ea6202ae56326f8c85196210b6f8",
+    "hash": "e39cb7e42d345d8acfaf319671d870f9",
     "packages": [
         {
-            "name": "phpoffice/phpexcel",
-            "version": "1.7.9",
+            "name": "phpexcel/phpexcel",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/PHPOffice/PHPExcel.git",
-                "reference": "7a7634fba664249a04fc771df677a9b9f755d7ec"
+                "url": "https://github.com/ddeboer/phpexcel.git",
+                "reference": "8a3f7a02cfbb0c34b06d66b614762ebe52423dc9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/7a7634fba664249a04fc771df677a9b9f755d7ec",
-                "reference": "7a7634fba664249a04fc771df677a9b9f755d7ec",
+                "url": "https://api.github.com/repos/ddeboer/phpexcel/zipball/8a3f7a02cfbb0c34b06d66b614762ebe52423dc9",
+                "reference": "8a3f7a02cfbb0c34b06d66b614762ebe52423dc9",
                 "shasum": ""
             },
             "require": {
-                "ext-xml": "*",
-                "php": ">=5.2.0"
+                "php": ">5.2.0"
             },
             "type": "library",
             "autoload": {
                 "psr-0": {
-                    "PHPExcel": "Classes/"
+                    "PHPExcel": "Classes"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPL"
+                "GNU"
             ],
-            "authors": [
-                {
-                    "name": "Maarten Balliauw",
-                    "homepage": "http://blog.maartenballiauw.be"
-                },
-                {
-                    "name": "Mark Baker"
-                },
-                {
-                    "name": "Franck Lefevre",
-                    "homepage": "http://blog.rootslabs.net"
-                },
-                {
-                    "name": "Erik Tilt"
-                }
-            ],
-            "description": "PHPExcel - OpenXML - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
+            "description": "PHPExcel - OpenXML - Create Excel2007 documents in PHP - Spreadsheet engine",
             "homepage": "http://phpexcel.codeplex.com",
             "keywords": [
-                "OpenXML",
                 "excel",
-                "php",
-                "spreadsheet",
-                "xls",
-                "xlsx"
+                "xls"
             ],
-            "time": "2013-05-24 11:57:42"
+            "time": "2013-09-10 18:57:03"
         }
     ],
     "packages-dev": [
@@ -69,9 +48,9 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
+    "stability-flags": {
+        "phpexcel/phpexcel": 20
+    },
     "platform": [
 
     ],

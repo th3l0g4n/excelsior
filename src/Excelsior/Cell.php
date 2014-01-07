@@ -18,7 +18,8 @@ class Cell extends Base {
      * @return Cell
      */
     public function left($offset = 1) {
-        return new self($this->getParent()->getCell($this->getColumn() - $offset, $this->getRow()), $this->getParent());
+        $component = $this->getParent()->getComponent();
+        return new self($component->getCellByColumnAndRow($this->getColumnIndex() - $offset, $this->getRow()), $this->getParent());
     }
 
     /**
@@ -28,7 +29,8 @@ class Cell extends Base {
      * @return Cell
      */
     public function right($offset = 1) {
-        return new self($this->getParent()->getCell($this->getColumn() + $offset, $this->getRow()), $this->getParent());
+        $component = $this->getParent()->getComponent();
+        return new self($component->getCellByColumnAndRow($this->getColumnIndex() + $offset, $this->getRow()), $this->getParent());
     }
 
     /**
@@ -38,7 +40,8 @@ class Cell extends Base {
      * @return Cell
      */
     public function up($offset = 1) {
-        return new self($this->getParent()->getCell($this->getColumn() , $this->getRow() - $offset), $this->getParent());
+        $component = $this->getParent()->getComponent();
+        return new self($component->getCellByColumnAndRow($this->getColumnIndex() , $this->getRow() - $offset), $this->getParent());
     }
 
     /**
@@ -48,7 +51,12 @@ class Cell extends Base {
      * @return Cell
      */
     public function down($offset = 1) {
-        return new self($this->getParent()->getCell($this->getColumn() , $this->getRow() + $offset), $this->getParent());
+        $component = $this->getParent()->getComponent();
+        return new self($component->getCellByColumnAndRow($this->getColumnIndex() , $this->getRow() + $offset), $this->getParent());
+    }
+
+    public function getColumnIndex() {
+        return \PHPExcel_Cell::columnIndexFromString($this->getColumn()) - 1;
     }
 
     /**
@@ -77,14 +85,18 @@ class Cell extends Base {
      */
     public function merge(Cell $cell) {
         $cols = array();
-        $cols[] = $this->getColumn();
-        $cols[] = $cell->getColumn();
+        $cols[] = $this->getColumnIndex();
+        $cols[] = $cell->getColumnIndex();
         sort($cols);
+
+        var_dump($cols);
 
         $rows = array();
         $rows[] = $this->getRow();
         $rows[] = $cell->getRow();
         sort($rows);
+
+        var_dump($rows);
 
         $this->getParent()->mergeCellsByColumnAndRow($cols[0], $rows[0], $cols[1], $rows[1]);
 
@@ -104,5 +116,16 @@ class Cell extends Base {
         }
 
         return false;
+    }
+
+    /**
+     * 'Overridden' to keep fluent interface
+     *
+     * @param $value
+     * @return $this
+     */
+    public function setValue($value) {
+        $this->component->setValue($value);
+        return $this;
     }
 }

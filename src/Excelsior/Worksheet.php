@@ -13,9 +13,9 @@ class Worksheet extends Base {
 
     public function getCell($coordinate, $row = null) {
         if (is_int($coordinate) && $row !== null) {
-            return new Cell($this->component->getCellByColumnAndRow($coordinate, $row));
+            return new Cell($this->component->getCellByColumnAndRow($coordinate, $row), $this);
         }
 
-        return new Cell($this->component->getCell($coordinate));
+        return new Cell($this->component->getCell($coordinate), $this);
     }
 }
