@@ -1,0 +1,16 @@
+{
+    "name": "th3l0g4n/excelsior",
+    "authors": [
+        {
+            "name": "th3l0g4n",
+            "email": "th3l0g4n@gmail.com"
+        }
+    ],
+    "require": {
+    	"phpoffice/phpexcel": "1.7.9"
+    },
+    "autoload": {
+        "psr-0": {"Excelsior\\": "src/"}
+    }
+
+}
